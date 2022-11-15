@@ -1,0 +1,48 @@
+
+<form method="post" id="areaForm" novalidate>
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+    </table>
+    <button type="submit">Save</button>
+  </form>
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    $("#id_division").change(function () {
+      var url = $("#areaForm").attr("ajax/load_districts/");  // get the url of the `load_cities` view
+      var divisionId = $(this).val();  // get the selected country ID from the HTML input
+    //   var districtId = $(this).val();  // get the selected country ID from the HTML input
+
+      $.ajax({                       // initialize an AJAX request
+        url: 'ajax/load_districts/',                  // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'division': divisionId ,      // add the country id to the GET parameters
+        //   'district': districtId ,      // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#id_district").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+  </script>
+  <script>
+    $("#id_district").change(function () {
+      var url = $("#areaForm").attr("ajax/load_subdistricts/");  // get the url of the `load_cities` view
+      var districtId = $(this).val();  // get the selected country ID from the HTML input
+    //   var districtId = $(this).val();  // get the selected country ID from the HTML input
+
+      $.ajax({                       // initialize an AJAX request
+        url: 'ajax/load_subdistricts/',                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+        //   'division': divisionId ,      // add the country id to the GET parameters
+          'district': districtId ,      // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#id_sub_district").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+  </script>
